@@ -1,0 +1,15 @@
+"This script is the file type plugin for .tex files 
+"It configures the behavior of vim when editing tex files
+" Added by Xero
+"
+
+setlocal tabstop=2
+setlocal softtabstop=2
+setlocal shiftwidth=2
+setlocal textwidth=79
+setlocal smarttab
+setlocal expandtab
+setlocal nosmartindent
+setlocal autoindent
+setlocal fileformat=unix
+setlocal fileencodings=utf-8
