@@ -1,2 +1,2 @@
-#Xero's Shell Confiurations.
-This repository contains Xero's prefered configuration for \*nix environments.
+#Xero's Shell Configurations.
+This repository contains Xero's preferred configuration for \*nix environments.
