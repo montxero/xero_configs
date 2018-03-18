@@ -1,0 +1,34 @@
+%% .octaverc
+% Xero's octave startup configuration
+
+PS1('[\W]>> ')
+PS2('')
+
+addpath(genpath('/home/xero/Documents/klgrepo/prog/code/mfiles'))
+cd /home/xero/Documents/klgrepo/prog/code/mfiles
+
+%% plot settings
+graphics_toolkit("gnuplot");
+setenv('GNUTERM', 'qt')
+%linewidth:def.1.5000
+set(0, "defaultlinelinewidth", 1.5)
+
+beep_on_error(1)
+
+
+% Set man to act as help
+function man(name = 'help');
+    mlock();    # Lock in memory so it's not removed by clear all
+    help(char (name));
+endfunction
+
+%% Disable octave-core
+crash_dumps_octave_core(0)
+
+%% load packages
+pkg load control
+pkg load optim
+pkg load struct
+
+cleanup
+printf('Welcome Xero, \nEnjoy your numerical computing experience!\n\n')
