@@ -18,4 +18,5 @@
     --enable-perlinterp=yes \
     --enable-cscope=yes \
     --disable-gui \
+    --with-x \
     --prefix=/usr/local
