@@ -1,6 +1,5 @@
 " .vimrc
-" created: 24-10-2016	Xero 
-" last modified: 15-01-2018 Xero
+" First created: 24-10-2016	Xero 
  
 " Vundle Setup {{{
 " template: ~/.vim/Bundles/vundle_tplt
@@ -15,7 +14,9 @@ Plugin 'vim-latex/vim-latex'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Yggdroot/indentLine'
 Plugin 'vim-syntastic/syntastic'
-"Plugin 'vim-scripts/indentpython.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-scripts/indentpython.vim'
 call vundle#end()
 "}}}
 
@@ -36,6 +37,12 @@ set fileformat=unix	"fileformat detemines how line ending is encodded
 
 " Editting Settings {{{
 set backspace=indent,eol,start "backspace over everything in insert mode
+
+"disable up, down left, right arrow keys.
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
 "}}}
 
 " UI {{{
@@ -66,9 +73,7 @@ filetype on	    	"enable filetype detection
 filetype plugin on	"load plugins for specific filetypes
 filetype indent on	"apply filetype indents
 let g:tex_conceal=""    "disable concealing in latex
-augroup filetypedetect
-    au BufRead,BufNewFile *.sage setfiletype python "associate *.sage with python filetype
-augroup END
+let g:tex_flavor = "latex"
 "}}}
 
 " Templates {{{
@@ -95,6 +100,8 @@ function! NumberToggle()
 endfunc
 
 nnoremap <C-n> :call NumberToggle()<cr>
+
+"flag extrenous whitespace
 "}}}
 
 " Syntastic specific settings {{{
@@ -104,6 +111,11 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_pythnon_checkers = ['flakes8', 'pylint']
 let g:Syntastic_tex_checkers = ['lacheck']
+"}}}
+
+" YouCompleteMe settings {{{
+let g:ycm_autoclose_preview_window_after_completion=1
+"}}}
 "
 " vim:foldmethod=marker:foldlevel=0
 " 
