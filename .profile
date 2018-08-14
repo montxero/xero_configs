@@ -35,3 +35,11 @@ export PATH=$PATH:/opt/gnat/bin
 
 # GHDL Settings
 #export PATH=$PATH:/opt/ghdl/bin:/opt/ghdl
+
+# Add ~/bin to path
+export PATH=$PATH:$HOME/bin
+
+#guix settings
+if [ -f "$HOME/.guixrc" ]; then
+    source "$HOME/.guixrc";
+fi
