@@ -18,7 +18,8 @@ fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+    #PATH="$HOME/bin:$PATH"
+    export PATH=$PATH:$HOME/bin
 fi
 
 # Manual Entries
@@ -27,17 +28,20 @@ export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
 # Python Settings
 # virtualenv and virtualenvwrapper
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -d "$HOME/.virtualenvs" ]; then
+    export WORKON_HOME=$HOME/.virtualenvs
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 # GNAT Compiler Settings
-export PATH=$PATH:/opt/gnat/bin
+if [ -d "/opt/gnat/bin" ]; then
+    export PATH=$PATH:/opt/gnat/bin
+fi
 
 # GHDL Settings
-#export PATH=$PATH:/opt/ghdl/bin:/opt/ghdl
-
-# Add ~/bin to path
-export PATH=$PATH:$HOME/bin
+if [ -d "/opt/ghdl/bin" ]; then
+    export PATH=$PATH:/opt/ghdl/bin:/opt/ghdl
+fi
 
 #guix settings
 if [ -f "$HOME/.guixrc" ]; then
