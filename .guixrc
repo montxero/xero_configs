@@ -5,7 +5,15 @@
 # This file is my attempt to manage these settings in a sane way without
 # bloating my .profile
 
-export PATH="$HOME/.guix-profile/bin${PATH:+:}$PATH"
-export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
-export INFOPATH="$HOME/.guix-profile/share/info${INFOPATH:+:}$INFOPATH"
-echo "Sourced .guixrc!!!!"
+export GUIX_PROFILE="$HOME/.guix-profile/etc/profile";
+export PATH="$HOME/.guix-profile/bin${PATH:+:}$PATH";
+export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale";
+export INFOPATH="$HOME/.guix-profile/share/info${INFOPATH:+:}$INFOPATH";
+
+# source $GUIX_PROFILE
+
+for env in $GUIX_PROFILE #$GUIX_LOCPATH $INFOPATH
+do
+    source $env;
+    echo "sourced $env"
+done
