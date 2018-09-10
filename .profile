@@ -22,12 +22,15 @@ if [ -d "$HOME/bin" ] ; then
     export PATH=$PATH:$HOME/bin
 fi
 
-# Manual Entries
+# set PATH so it includes user's .local/bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    export PATH=$PATH:$HOME/.local/bin
+fi
+
 # Java Settings
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
-# Python Settings
-# virtualenv and virtualenvwrapper
+# python virtualenv and virtualenvwrapper settings
 if [ -d "$HOME/.virtualenvs" ]; then
     export WORKON_HOME=$HOME/.virtualenvs
     source /usr/local/bin/virtualenvwrapper.sh
