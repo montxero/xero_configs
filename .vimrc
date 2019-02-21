@@ -17,6 +17,8 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-scripts/indentpython.vim'
+Plugin 'jpalardy/vim-slime'
+Plugin 'ludovicchabant/vim-lawrencium'
 call vundle#end()
 "}}}
 
@@ -46,7 +48,7 @@ map <right> <nop>
 "}}}
 
 " UI {{{
-set number		    "show line numbers
+"set number		    "show line numbers
 set cursorline		"highlight current cusor line
 set showcmd		    "show command in bottom bar
 set wildmenu		"visual autocomplete for command menu
@@ -109,12 +111,17 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_pythnon_checkers = ['flakes8', 'pylint']
+let g:syntastic_pythnon_checkers = ['flake8', 'pylint']
 let g:Syntastic_tex_checkers = ['lacheck']
 "}}}
 
 " YouCompleteMe settings {{{
 let g:ycm_autoclose_preview_window_after_completion=1
+"}}}
+"
+" Vim-Slime Settings {{{
+let g:slime_target = "screen"
+let g:sime_paste = "$HOME/.slime_paste"
 "}}}
 "
 " vim:foldmethod=marker:foldlevel=0
