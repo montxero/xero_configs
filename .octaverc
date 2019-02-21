@@ -1,8 +1,8 @@
 %% .octaverc
 % Xero's octave startup configuration
 
-PS1('[\W]>> ')
-PS2('')
+%PS1('[\W]>> ')
+%PS2('')
 
 addpath(genpath('/home/xero/Documents/klgrepo/prog/code/mfiles'))
 cd /home/xero/Documents/klgrepo/prog/code/mfiles
@@ -29,6 +29,10 @@ crash_dumps_octave_core(0)
 pkg load control
 pkg load optim
 pkg load struct
+pkg load signal
+pkg load statistics
+pkg load io
+pkg load doctest
 
-cleanup
+#cleanup
 printf('Welcome Xero, \nEnjoy your numerical computing experience!\n\n')
