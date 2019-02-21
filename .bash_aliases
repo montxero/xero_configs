@@ -1,10 +1,10 @@
 # .bash_aliases
 # File to store bash_aliases
 # Created by Xero
-# last modified O8-05-2018
 
 alias test_internet="ping -c 3 8.8.8.8"
 #alias vi="vim"
+alias vim="vim --servername vim"
 alias emacs="emacs -nw"
 alias clearls="clear; ls"
 alias clearla="clear; ls -a"
