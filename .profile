@@ -30,7 +30,7 @@ fi
 # Java Settings
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
-# python virtualenv and virtualenvwrapper settings
+# PYTHON VIRTUALENV and VIRTUALENVWRAPPER settings
 if [ -d "$HOME/.virtualenvs" ]; then
     export WORKON_HOME=$HOME/.virtualenvs
     source /usr/local/bin/virtualenvwrapper.sh
@@ -46,7 +46,12 @@ if [ -d "/opt/ghdl/bin" ]; then
     export PATH=$PATH:/opt/ghdl/bin:/opt/ghdl
 fi
 
-#guix settings
+# GUIX settings
 if [ -f "$HOME/.guixrc" ]; then
     source "$HOME/.guixrc";
+fi
+
+# TRANSMISSION daemon settings
+if [ -f "$HOME/.transmission_aliases" ]; then
+    source "$HOME/.transmission_aliases";
 fi
