@@ -74,7 +74,6 @@ set foldlevelstart=10	"open most folds by default
 filetype on	    	"enable filetype detection
 filetype plugin on	"load plugins for specific filetypes
 filetype indent on	"apply filetype indents
-let g:tex_conceal=""    "disable concealing in latex
 let g:tex_flavor = "latex"
 "}}}
 
