@@ -5,6 +5,7 @@
 # This file is my attempt to manage these settings in a sane way without
 # bloating my .profile
 
+export GUIX_SUBSTITUTE_URLS="https://ci.guix.info https//:berlin.guixsd.org https//:mirror.hydra.gnu.org"
 export DOT_GUIX_PROFILE="$HOME/.guix-profile";
 export GUIX_SHARE="$DOT_GUIX_PROFILE/share";
 export GUIX_PROFILE="$DOT_GUIX_PROFILE/etc/profile";
@@ -25,6 +26,7 @@ export KICAD_SYMBOL_DIR="$GUIX_SHARE/kicad/library"
 export KICAD_TEMPLATE_DIR="$GUIX_SHARE/kicad/template"
 
 # source $GUIX_PROFILE
+
 for env in $GUIX_PROFILE #$GUIX_LOCPATH $INFOPATH
 do
     source $env;
