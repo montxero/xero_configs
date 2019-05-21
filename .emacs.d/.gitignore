@@ -1,0 +1,11 @@
+# -*- mode: gitignore; -*-
+
+auto-save-list/
+.\#*
+#*
+*~
+*.elc
+emacsconfig.el
+emacsconfig.tex
+emacsconfig.org
+emacsconfig.html
