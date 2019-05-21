@@ -5,7 +5,7 @@
 set spell
 set fileformat=unix
 set fileencodings=utf-8
-set textwidth=1230
+set textwidth=120
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
