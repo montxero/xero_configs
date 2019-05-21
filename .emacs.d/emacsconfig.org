@@ -1,0 +1,269 @@
+#+TITLE: Emacs Config
+#+AUTHOR: Xero
+
+This file is is my Emacs Config.  It is  modelled on that of 
+[[https://raw.githubusercontent.com/munen/emacs.d/master/configuration.org][Alain M. Lafon]].
+
+* General Editor Settings
+** Set Load Path
+#+BEGIN_SRC emacs-lisp
+  (let ((default-directory "~/.emacs.d"))
+    (normal-top-level-add-subdirs-to-load-path))
+#+END_SRC
+
+** Package Source & Dependency Management
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (unless (assoc-default "gnu" package-archives)
+    (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+  (unless (assoc-default "melpa" package-archives)
+    (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")))
+  (unless (assoc-default "org" package-archives)
+    (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
+  (package-initialize)
+#+END_SRC
+
+** Packages & Package Installation
+List third party packages to be installed.
+#+BEGIN_SRC emacs-lisp
+  (defvar my-packages '(auctex
+                        auto-complete
+                        elpy
+                        flycheck
+                        geiser
+                        guix
+                        jedi
+                        magit
+                        markdown-mode
+                        ob-sagemath
+                        org
+                        paredit
+                        pipenv
+                        py-autopep8
+                        reftex
+                        sage-shell-mode
+                        sicp
+                        slime
+                        vimish-fold
+                        web-mode)
+    "Packages I need directly")
+#+END_SRC
+
+Install packages.
+#+BEGIN_SRC emacs-lisp
+  (let ((package-list-refreshed-p nil))
+    (dolist (p my-packages)
+      (unless (package-installed-p p)
+        (unless package-list-refreshed-p
+          (package-refresh-contents)
+          (setq packge-list-refreshed-p t))
+        (package-install p))
+      (add-to-list 'package-selected-packages p)))
+#+END_SRC
+
+** Tabs & Spaces
+Indent with spaces rather than tabs.
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+END_SRC
+
+** Whitespace settings for line lengths
+Set line length
+#+BEGIN_SRC emacs-lisp
+  ;; white-space settings
+  (setq whitespace-line-column 79) ;; limit line length
+  (setq whitespace-style '(face lines-tail))
+  (add-hook 'prog-mode-hook 'whitespace-mode)
+#+END_SRC
+
+Function to customise whitespace settings
+#+BEGIN_SRC emacs-lisp
+  (defun set-white-space-line-length (n)
+    "Toggle line length, then set white-space-line-column to `n`.
+  My first emacs-lisp function!!!"
+    (global-whitespace-mode -1)
+    (setq whitespace-line-column n)
+    (global-whitespace-mode 1))
+#+END_SRC
+
+** Misc
+Emacs 25.1, introduced =global-eldoc-mode= which is enabled by default.
+Thus one does not need to explictly enable =eldoc-mode= in various mode
+hooks[fn:3].
+
+
+* Programming
+This section contains settings that apply to all programming modes.
+The prettify symbols idea is from [fn:2]
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (global-prettify-symbols-mode 1)
+#+END_SRC
+
+** Magit
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x g") 'magit-status)
+#+END_SRC
+
+* LISP
+#+BEGIN_SRC emacs-lisp
+  ;;; hooks
+  (add-hook 'lisp-mode-hook (set-white-space-line-length 119))
+  (add-hook 'lisp-mode-hook #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+
+  ;;; auto-mode
+  (add-to-list 'auto-mode-alist '("\\.lisp\\' " . lisp-mode))
+  (add-to-list 'auto-mode-alist '("\\.lsp\\' " . lisp-mode))
+  (add-to-list 'auto-mode-alist '("\\.cl\\' " . lisp-mode))
+
+  ;;; default lisp implemntation
+  (setq inferior-lisp-program "sbcl")
+#+END_SRC
+
+** Common Lisp
+
+*** Hyperspec
+The Commonlisp Hyperspec is a proprietaty HTML document which serves as a
+reference for the ANSI Common Lisp standard.
+It is a property of LisWorks and Damn it is useful.  Legal Notice for using/
+making derivative works can be found [[http://www.lispworks.com/documentation/HyperSpec/Front/Help.htm#Legal][here.]]
+
+#+BEGIN_SRC emacs-lisp
+  (defconst *cl-hyperspec-location* "~/.emacs.d/cl-hyperspec/HyperSpec")
+  (setq common-lisp-hyperspec-root (expand-file-name *cl-hyperspec-location*))
+#+END_SRC
+
+*** Slime
+Slime is _the_ way to develop in Common Lisp.
+=overide-slime-repl-bindings-with-paredit= Stops Slime's
+REPL from grabbing DEL which causes problems when backspacing
+over `(`.
+#+BEGIN_SRC emacs-lisp
+  (setq slime-contribs '(slime-fancy))
+  (defun overide-slime-repl-bindings-with-paredit ()
+    (define-key slime-repl-mode-map
+      (read-kbd-macro paredit-backward-delete-key) nil))
+
+  (add-hook 'slime-repl-mode-hook #'enable-paredit-mode)
+  (add-hook 'slime-repl-mode-hook 'overide-slime-repl-bindings-with-paredit)
+
+
+  (defun slime-description-fontify ()
+    "Fontify sections of SLIME Description"
+    (with-current-buffer "*SLIME Description*"
+      (highlight-regexp
+       (concat "^Function:\\|"
+               "^Macro-function:\\|"
+               "^Its associated name.+?) is \\|"
+               "^The .+'s arguments are:\\|"
+               "^Function documentation:$\\|"
+               "^Its.+\\(is\\|are\\):\\|"
+               "^On.+ was compiled from:$")
+       'hi-green-b)))
+
+  (defadvice slime-show-description (after slime-description-fontify activate)
+    "Fontify sections of SLIME Description"
+    (slime-description-fontify))
+#+END_SRC
+
+** Emacs Lisp
+The linua-franca of Emacs. Some hooks here like the
+=eval-expression-minibuffer-setup-hook= are relevant to other modes such as
+*Slime*. I have put them here rather than in a separate section as a matter of
+convention, and a nod to the importance of Emacs Lisp in Emacs.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
+#+END_SRC
+
+** Scheme Lisp
+I use geiser for scheme hacking.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+  (add-hook 'geiser-mode-hook #'enable-paredit-mode)
+#+END_SRC
+
+
+* PYTHON
+#+BEGIN_SRC emacs-lisp
+  (setq python-indent 4)
+  ;;interpreter settings
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "--simple-prompt -i"
+        python-shell-prompt-detect-faliure-warning nil)
+#+END_SRC
+** Jedi Settings
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:setup-keys t)
+  (setq jedi:complete-on-dot t)
+#+END_SRC
+
+** Pipenv
+A [[https://pipenv.readthedocs.io/en/latest/][Pipenv]] porcelain inside Emacs.
+This should take my Python workflow to the next level.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook #'pipenv-mode)
+#+END_SRC
+* TEX
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'tex-mode-hook (set-white-space-line-length 119))
+  (add-hook 'tex-mode-hook #'flyspell-mode)
+#+END_SRC
+** AUCTeX & RefTeX
+AUCTeX and RefTeX together create a usefule latex editing environment.
+#+BEGIN_SRC emacs-lisp
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+  (setq reftex-plug-into-AUCTeX t)
+  (add-hook 'Latex-mode-hook 'turn-on-reftex) ;;with AUCTeX LaTeX mode
+  (add-hook 'latex-mode-hook 'turn-on-reftex) ;;with Emacs laTeX mode
+#+END_SRC
+
+
+* Org Mode
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook (set-white-space-line-length 79))
+  (add-hook 'org-mode-hook #'flyspell-mode)
+
+  (setq org-src-fontify-natively t)
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((shell . t)
+                               (python . t)
+                               (lisp . t)
+                               (scheme . t)
+                               (octave . t)))
+#+END_SRC
+
+
+* Octave
+Octave is a free program for numerical computation.
+It is a drop in replacement for Matlab core.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'inferior-octave-mode-hook (lambda ()
+                                         (turn-on-font-lock)
+                                         (define-key inferior-octave-mode-map [up]
+                                           'comint-previous-input)
+                                         (define-key inferior-octave-mode-map [down]
+                                           'comint-next-input)))
+
+#+END_SRC
+
+
+* Sagemath
+The ultimate computational mathematics environment.
+=sage-shell:alias= enables the use of =M-x run-sage= instead
+of =M-x sage-shell:run-sage=.
+#+BEGIN_SRC emacs-lisp
+  (require 'sage-shell-mode)
+  (setq sage-shell:sage-executable "/usr/local/bin/sage")
+  (sage-shell:define-alias)
+#+END_SRC
+* Footnotes 
+
+[fn:3] https://emacsredux.com/blog/2018/11/13/eldoc-goes-global/
+
+[fn:1] http://ergoemacs.org/emacs/emacs_pretty_lambda.html
