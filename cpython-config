@@ -1,0 +1,9 @@
+# my configuration script for cpython
+./configure --prefix=PATH/FOR/INSTALLATION \
+--enable-optimizations \
+--with-lto \
+--enable-shared \
+--enable-loadable-sqlite-extensions \
+--enable-ipv6 \
+--enable-big-digits \
+--with-doc-strings 
