@@ -1,9 +1,10 @@
-# my configuration script for cpython
-./configure --prefix=PATH/FOR/INSTALLATION \
+./configure --prefix=/opt/python/cpython/3.7.3 \
 --enable-optimizations \
 --with-lto \
---enable-shared \
+--with-openssl=/usr/bin/openssl \
 --enable-loadable-sqlite-extensions \
 --enable-ipv6 \
 --enable-big-digits \
---with-doc-strings 
+--with-doc-strings \
+--enable-shared \
+LDFLAGS=-Wl,-rpath=/opt/python/cpython/3.7.3/lib
