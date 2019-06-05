@@ -8,6 +8,23 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# pathmunge function to add path to $PATH whilst avoiding duplicates
+# usage:
+# To add a path to the front of $PATH, do
+# $ pathmunge path
+# To add a path to the end of $PATH, do
+# $ pathmunge path after
+
+pathmunge () {
+    if ! echo "$PATH" | /bin/grep -Eq "(^|:)$1($|:)" ; then
+        if [ "2" = "after" ]; then
+            PATH="$PATH:$1"
+        else
+            PATH="$1:$PATH"
+        fi
+    fi
+}
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -17,14 +34,17 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    #PATH="$HOME/bin:$PATH"
-    export PATH=$PATH:$HOME/bin
+#if [ -d "$HOME/bin" ] ; then
+#    #PATH="$HOME/bin:$PATH"
+#    export PATH=$PATH:$HOME/bin
+#fi
+if [ -d "$HOME/bin" ]; then
+    pathmunge $HOME/bin
 fi
 
 # set PATH so it includes user's .local/bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    export PATH=$PATH:$HOME/.local/bin
+if [ -d "$HOME/.local/bin" ]; then
+    pathmunge $HOME/.local/bin
 fi
 
 # Java Settings
@@ -38,12 +58,12 @@ fi
 
 # GNAT Compiler Settings
 if [ -d "/opt/gnat/bin" ]; then
-    export PATH=$PATH:/opt/gnat/bin
+    pathmunge /opt/gnat/bin
 fi
 
 # GHDL Settings
 if [ -d "/opt/ghdl/bin" ]; then
-    export PATH=$PATH:/opt/ghdl/bin:/opt/ghdl
+    pathmunge /opt/ghdl/bin
 fi
 
 # GUIX settings
@@ -54,4 +74,9 @@ fi
 # TRANSMISSION daemon settings
 if [ -f "$HOME/.transmission_aliases" ]; then
     source "$HOME/.transmission_aliases";
+fi
+
+# MAXIMA settings
+if [ -d "/opt/maxima/bin" ]; then
+    pathmunge /opt/maxima/bin
 fi
