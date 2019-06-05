@@ -1,0 +1,10 @@
+./configure --prefix=/opt/python/cpython/3.7.3 \
+--enable-optimizations \
+--with-lto \
+--with-openssl=/usr/bin/openssl \
+--enable-loadable-sqlite-extensions \
+--enable-ipv6 \
+--enable-big-digits \
+--with-doc-strings \
+--enable-shared \
+LDFLAGS=-Wl,-rpath=/opt/python/cpython/3.7.3/lib
