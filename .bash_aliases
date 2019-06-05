@@ -1,18 +1,21 @@
 # .bash_aliases
 # File to store bash_aliases
 # Created by Xero
+# last modified 31-12-2018
 
-alias test_internet="ping -c 3 8.8.8.8"
-#alias vi="vim"
-alias vim="vim --servername vim"
+# application startup commands
 alias emacs="emacs -nw"
-alias clearls="clear; ls"
-alias clearla="clear; ls -a"
-alias sage_jupyter="sage -notebook=jupyter > /dev/null 2>&1 &"
-alias rm="rm -i"
-alias dataenv="cd ~/Documents/klgRepo/jnbs && workon data; jupyter notebook"
-alias jnb="jupyter notebook > /dev/null 2>&1 &"
-alias jlab="jupyter lab > /dev/null 2>&1 &"
 alias jabref="jref > /dev/null 2>&1 &"
-alias mlab="matlab > /dev/null 2>&1 &"
+alias jlab="jupyter lab > /dev/null 2>&1 &"
+alias jnb="jupyter notebook > /dev/null 2>&1 &"
+alias matlab="matlab > /dev/null 2>&1 &"
+alias sage_jupyter="sage -notebook=jupyter > /dev/null 2>&1 &"
+alias vim="vim --servername vim"
+alias xmaxima="xmaxima > /dev/null 2>&1 &"
+
+# general
+alias clearla="clear; ls -a"
+alias clearls="clear; ls"
+alias rm="rm -i"
 alias source_profile="source $HOME/.profile"
+alias test_internet="ping -c 3 8.8.8.8"
