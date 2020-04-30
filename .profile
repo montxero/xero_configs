@@ -25,19 +25,9 @@ pathmunge () {
     fi
 }
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
-
-# set PATH so it includes user's private bin if it exists
-#if [ -d "$HOME/bin" ] ; then
-#    #PATH="$HOME/bin:$PATH"
-#    export PATH=$PATH:$HOME/bin
-#fi
+# I believe it is not a good idea to source .bashrc from .profile
+# Rather .bashrc should source .profile like every other shell.
+# This has the added benefit of abstracting away things which are common to all
 if [ -d "$HOME/bin" ]; then
     pathmunge $HOME/bin
 fi
@@ -48,12 +38,16 @@ if [ -d "$HOME/.local/bin" ]; then
 fi
 
 # Java Settings
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+if [ -z "{JAVA_HOME}" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+fi
 
 # PYTHON VIRTUALENV and VIRTUALENVWRAPPER settings
 if [ -d "$HOME/.virtualenvs" ]; then
-    export WORKON_HOME=$HOME/.virtualenvs
-    source /usr/local/bin/virtualenvwrapper.sh
+    if [ -z "${WORKON_HOME}" ]; then
+        export WORKON_HOME=$HOME/.virtualenvs
+        source /usr/local/bin/virtualenvwrapper.sh
+    fi
 fi
 
 # GNAT Compiler Settings
@@ -67,8 +61,12 @@ if [ -d "/opt/ghdl/bin" ]; then
 fi
 
 # GUIX settings
-if [ -f "$HOME/.guixrc" ]; then
-    source "$HOME/.guixrc";
+if [ -d "$HOME/.guix-profile" ]; then
+    if [ -z "${GUIX_PROFILE}" ]; then
+        export GUIX_PROFILE="$HOME/.guix-profile/";
+        export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+        . "$GUIX_PROFILE/etc/profile";
+    fi
 fi
 
 # TRANSMISSION daemon settings
