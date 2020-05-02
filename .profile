@@ -61,11 +61,12 @@ if [ -d "/opt/ghdl/bin" ]; then
 fi
 
 # GUIX settings
-if [ -d "$HOME/.guix-profile" ]; then
+if [ -d "$HOME/.config/guix/current" ]; then
     if [ -z "${GUIX_PROFILE}" ]; then
-        export GUIX_PROFILE="$HOME/.guix-profile/";
-        export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+        export GUIX_PROFILE="$HOME/.config/guix/current";
         . "$GUIX_PROFILE/etc/profile";
+        source "$GUIX_PROFILE/etc/bash_completion.d/guix"
+        source "$GUIX_PROFILE/etc/bash_completion.d/guix-daemon"
     fi
 fi
 
