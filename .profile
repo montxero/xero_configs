@@ -33,7 +33,7 @@ guix_setup () {
             source "$GUIX_PROFILE/etc/profile";
         fi
         if [ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]; then
-        #    source "$HOME/.config/guix/current/etc/bash_completion.d/guix";
+            source "$HOME/.config/guix/current/etc/bash_completion.d/guix";
             source "$HOME/.config/guix/current/etc/bash_completion.d/guix-daemon";
         fi
     fi
