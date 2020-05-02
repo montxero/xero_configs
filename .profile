@@ -8,12 +8,12 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# pathmunge function to add path to $PATH whilst avoiding duplicates
-# usage:
+# pathmunge: function to add path to $PATH whilst avoiding duplicates
+# USAGE:
 # To add a path to the front of $PATH, do
-# $ pathmunge path
+#         $ pathmunge path
 # To add a path to the end of $PATH, do
-# $ pathmunge path after
+#         $ pathmunge path after
 
 pathmunge () {
     if ! echo "$PATH" | /bin/grep -Eq "(^|:)$1($|:)" ; then
@@ -25,57 +25,47 @@ pathmunge () {
     fi
 }
 
-# I believe it is not a good idea to source .bashrc from .profile
-# Rather .bashrc should source .profile like every other shell.
-# This has the added benefit of abstracting away things which are common to all
-if [ -d "$HOME/bin" ]; then
-    pathmunge $HOME/bin
-fi
-
-# set PATH so it includes user's .local/bin if it exists
-if [ -d "$HOME/.local/bin" ]; then
-    pathmunge $HOME/.local/bin
-fi
-
-# Java Settings
-if [ -z "{JAVA_HOME}" ]; then
-    export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-fi
-
-# PYTHON VIRTUALENV and VIRTUALENVWRAPPER settings
-if [ -d "$HOME/.virtualenvs" ]; then
-    if [ -z "${WORKON_HOME}" ]; then
-        export WORKON_HOME=$HOME/.virtualenvs
-        source /usr/local/bin/virtualenvwrapper.sh
+guix_setup () {
+    if [ -z "$GUIX_PROFILE" ]; then
+        if [ -d "$HOME/.guix-profile" ]; then
+            export GUIX_PROFILE=$HOME/.guix-profile;
+            export GUIX_LOCPATH=$GUIX_PROFILE/lib/locale;
+            source "$GUIX_PROFILE/etc/profile";
+        fi
+        if [ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]; then
+        #    source "$HOME/.config/guix/current/etc/bash_completion.d/guix";
+            source "$HOME/.config/guix/current/etc/bash_completion.d/guix-daemon";
+        fi
     fi
-fi
+}
 
-# GNAT Compiler Settings
-if [ -d "/opt/gnat/bin" ]; then
-    pathmunge /opt/gnat/bin
-fi
-
-# GHDL Settings
-if [ -d "/opt/ghdl/bin" ]; then
-    pathmunge /opt/ghdl/bin
-fi
-
-# GUIX settings
-if [ -d "$HOME/.config/guix/current" ]; then
-    if [ -z "${GUIX_PROFILE}" ]; then
-        export GUIX_PROFILE="$HOME/.config/guix/current";
-        . "$GUIX_PROFILE/etc/profile";
-        source "$GUIX_PROFILE/etc/bash_completion.d/guix"
-        source "$GUIX_PROFILE/etc/bash_completion.d/guix-daemon"
+python_virtualenv_setup () {
+    if [ -d "$HOME/.virtualenvs" ]; then
+        if [ -z "${WORKON_HOME}" ]; then
+            export WORKON_HOME=$HOME/.virtualenvs
+            source /usr/local/bin/virtualenvwrapper.sh
+        fi
     fi
-fi
+}
+    
+local_bin_setup () {
+    # if ~/local/bin exists, add it to the head of $PATH
+    if [ -d "$HOME/.local/bin" ]; then
+        pathmunge $HOME/.local/bin
+    fi
+    # if ~/bin exists, add it to the head of $PATH
+    if [ -d "$HOME/bin" ]; then
+        pathmunge $HOME/bin
+    fi
+}
+
 
 # TRANSMISSION daemon settings
 if [ -f "$HOME/.transmission_aliases" ]; then
     source "$HOME/.transmission_aliases";
 fi
 
-# MAXIMA settings
-if [ -d "/opt/maxima/bin" ]; then
-    pathmunge /opt/maxima/bin
-fi
+
+python_virtualenv_setup;
+local_bin_setup;
+guix_setup;
