@@ -15,9 +15,12 @@
 # To add a path to the end of $PATH, do
 #         $ pathmunge path after
 
+
+# shellcheck source=/dev/null
+
 pathmunge () {
     if ! echo "$PATH" | /bin/grep -Eq "(^|:)$1($|:)" ; then
-        if [ "2" = "after" ]; then
+        if [ "$2" = "after" ]; then
             PATH="$PATH:$1"
         else
             PATH="$1:$PATH"
@@ -30,11 +33,10 @@ guix_setup () {
         if [ -d "$HOME/.guix-profile" ]; then
             export GUIX_PROFILE=$HOME/.guix-profile;
             export GUIX_LOCPATH=$GUIX_PROFILE/lib/locale;
-            source "$GUIX_PROFILE/etc/profile";
+            . "$GUIX_PROFILE/etc/profile";
         fi
         if [ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]; then
-            source "$HOME/.config/guix/current/etc/bash_completion.d/guix";
-            source "$HOME/.config/guix/current/etc/bash_completion.d/guix-daemon";
+            . "$HOME/.config/guix/current/etc/bash_completion.d/guix";
         fi
     fi
 }
@@ -43,7 +45,7 @@ python_virtualenv_setup () {
     if [ -d "$HOME/.virtualenvs" ]; then
         if [ -z "${WORKON_HOME}" ]; then
             export WORKON_HOME=$HOME/.virtualenvs
-            source /usr/local/bin/virtualenvwrapper.sh
+            . "/usr/local/bin/virtualenvwrapper.sh"
         fi
     fi
 }
@@ -51,20 +53,18 @@ python_virtualenv_setup () {
 local_bin_setup () {
     # if ~/local/bin exists, add it to the head of $PATH
     if [ -d "$HOME/.local/bin" ]; then
-        pathmunge $HOME/.local/bin
+        pathmunge "$HOME/.local/bin"
     fi
     # if ~/bin exists, add it to the head of $PATH
     if [ -d "$HOME/bin" ]; then
-        pathmunge $HOME/bin
+        pathmunge "$HOME/bin"
     fi
 }
 
-
 # TRANSMISSION daemon settings
 if [ -f "$HOME/.transmission_aliases" ]; then
-    source "$HOME/.transmission_aliases";
+    . "$HOME/.transmission_aliases";
 fi
-
 
 python_virtualenv_setup;
 local_bin_setup;
