@@ -15,6 +15,7 @@ alias clearls="clear; ls"
 alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
-alias source_profile="source $HOME/.profile"
+alias source_profile='source $HOME/.profile'
 alias test_internet="ping -c 3 8.8.8.8"
 alias less="less -r"
+
