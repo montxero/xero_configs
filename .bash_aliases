@@ -10,12 +10,11 @@ alias vim="vim --servername vim"
 alias xmaxima="xmaxima > /dev/null 2>&1 &"
 
 # general
-alias clearla="clear; ls -a"
-alias clearls="clear; ls"
+alias cla="clear; ls -a"
+alias cls="clear; ls"
 alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
-alias source_profile='source $HOME/.profile'
+alias sprofile=". $HOME/.profile"
 alias test_internet="ping -c 3 8.8.8.8"
 alias less="less -r"
-
