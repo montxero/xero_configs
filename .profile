@@ -143,15 +143,31 @@ launch_emacs_server () {
 }
 
 
+launch_screen_session () {
+    # Launch a screen session with the name dev if one is not running
+    # and screen is installed.
+    if command -v screen > /dev/null; then
+        if [ ! "$(pgrep -f 'screen -S dev')" ]; then
+            screen -S dev;
+        fi
+    fi
+}
+
+
 library_setup;
 keyboard_setup;
 python_setup;
 guix_setup;
 local_bin_setup;
+setup_generic_installed "$HOME/.idris2";
+setup_generic_installed "/opt/apl/1.8";
+setup_generic_installed "/opt/ecl/20.4.24";
+# setup_generic_installed "/opt/gcc/10.2.0";
+setup_generic_installed "/opt/global/6.6.5";
+setup_generic_installed "/opt/maxima/5.44.0";
 setup_generic_installed "/opt/racket/7.8";
 setup_generic_installed "/opt/sbcl/2.0.8";
-setup_generic_installed "/opt/maxima";
-setup_generic_installed "/opt/ecl/20.4.24";
-setup_generic_installed "/opt/gcc/10.2.0";
-setup_generic_installed "$HOME/.idris2";
+setup_generic_installed "/opt/keepassxc/2.6.1";
+setup_generic_installed "/opt/opendylan/opendylan-2019.1";
 launch_emacs_server;
+launch_screen_session;
