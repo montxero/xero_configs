@@ -92,6 +92,10 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 #alias la='ls -A'
 #alias l='ls -CF'
 
+if [ -f "$HOME/.bash_aliases" ]; then
+    . "$HOME/.bash_aliases"
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -101,4 +105,13 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+fi
+
+# enable completion for guix
+if [ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]; then
+    . "$HOME/.config/guix/current/etc/bash_completion.d/guix";
+fi
+# source .profile
+if [ -f "$HOME/.profile" ]; then
+    . "$HOME/.profile"
 fi
