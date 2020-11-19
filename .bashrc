@@ -88,9 +88,9 @@ fi
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
 
 if [ -f "$HOME/.bash_aliases" ]; then
     . "$HOME/.bash_aliases"
@@ -107,11 +107,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# enable completion for guix
-if [ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]; then
-    . "$HOME/.config/guix/current/etc/bash_completion.d/guix";
-fi
 # source .profile
 if [ -f "$HOME/.profile" ]; then
     . "$HOME/.profile"
+fi
+
+# Poetry Completions
+if [ -r "$HOME/.poetry/share/poetry.bash-completion" ]; then
+    . "$HOME/.poetry/share/poetry.bash-completion";
+fi
+
+# NVM Completions
+if [ -n "$NVM_DIR" ]; then
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion";
 fi

@@ -68,37 +68,19 @@ library_setup (){
 }
 
 
-guix_setup () {
-    if [ -z "$GUIX_PROFILE" ]; then
-        if [ -d "$HOME/.guix-profile" ]; then
-            export GUIX_PROFILE=$HOME/.guix-profile;
-            export GUIX_LOCPATH=$GUIX_PROFILE/lib/locale;
-            lib_pathmunge "$GUIX_PROFILE/lib";
-            . "$GUIX_PROFILE/etc/profile";
-        fi
-        if [ -f "$HOME/.config/guix/current/etc/bash_completion.d/guix" ]; then
-            . "$HOME/.config/guix/current/etc/bash_completion.d/guix";
-        fi
-    fi
-}
-
-
 python_setup () {
     # Virtualenv setup
     if ! command -v workon > /dev/null 2>&1; then
-        if [ -f "/usr/local/bin/virtualenvwrapper.sh" ]; then
+        if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
             if [ -z "$WORKON_HOME" ]; then
                 export WORKON_HOME=$HOME/.virtualenvs;
             fi
-            . "/usr/local/bin/virtualenvwrapper.sh";
+            . "$HOME/.local/bin/virtualenvwrapper.sh";
         fi
     fi
     # Poetry setup
     if [ -d "$HOME/.poetry/bin" ]; then
         pathmunge "$HOME/.poetry/bin";
-        if [ -r "$HOME/.poetry/share/poetry.bash-completion" ]; then
-            . "$HOME/.poetry/share/poetry.bash-completion";
-        fi
     fi
 }
     
@@ -113,12 +95,6 @@ local_bin_setup () {
         pathmunge "$HOME/bin";
     fi
 }
-
-
-# TRANSMISSION daemon settings
-if [ -f "$HOME/.transmission_aliases" ]; then
-    . "$HOME/.transmission_aliases";
-fi
 
 
 keyboard_setup () {
@@ -143,12 +119,12 @@ launch_emacs_server () {
 }
 
 
-launch_screen_session () {
-    # Launch a screen session with the name dev if one is not running
-    # and screen is installed.
-    if command -v screen > /dev/null; then
-        if [ ! "$(pgrep -f 'screen -S dev')" ]; then
-            screen -S dev;
+nvm_setup () {
+    # Setup nvm for nodejs
+    if [ -z "$NVM_DIR" ]; then
+        if [ -d "$HOME/.nvm" ]; then
+            export NVM_DIR="$HOME/.nvm";
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh";  # This loads nvm
         fi
     fi
 }
@@ -157,17 +133,7 @@ launch_screen_session () {
 library_setup;
 keyboard_setup;
 python_setup;
-guix_setup;
 local_bin_setup;
+nvm_setup;
 setup_generic_installed "$HOME/.idris2";
-setup_generic_installed "/opt/apl/1.8";
-setup_generic_installed "/opt/ecl/20.4.24";
-# setup_generic_installed "/opt/gcc/10.2.0";
-setup_generic_installed "/opt/global/6.6.5";
-setup_generic_installed "/opt/maxima/5.44.0";
-setup_generic_installed "/opt/racket/7.8";
-setup_generic_installed "/opt/sbcl/2.0.8";
-setup_generic_installed "/opt/keepassxc/2.6.1";
-setup_generic_installed "/opt/opendylan/opendylan-2019.1";
 launch_emacs_server;
-launch_screen_session;
