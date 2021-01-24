@@ -1,31 +1,27 @@
 " .vimrc
 " First created: 24-10-2016	Xero 
  
-" Vundle Setup {{{
-" template: ~/.vim/Bundles/vundle_tplt
-" compulsary commands
-set nocompatible	"breaks vi compatibility
-filetype off		" disables filetype recognition.
-set rtp+=/home/xero/.vim/bundle/Vundle.vim	"include vundle in runtime path
-call vundle#begin()	"initialise vundle
-" Put plugins between the following lines and 'vundle#end()'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'vim-latex/vim-latex'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'Yggdroot/indentLine'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'jpalardy/vim-slime'
-Plugin 'ludovicchabant/vim-lawrencium'
-call vundle#end()
-"}}}
+" Plugins with Plug {{{
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" COLOURS eyecandy {{{
-set t_Co=256		"enable 256 colours. Needed for some colorschemes
-syntax enable		"enable syntax highlighting by colour
-set background=dark	"dark background
+call plug#begin('~/.vim/plugged')
+" Put plugins between the following lines and 'vundle#end()'
+Plug 'vim-latex/vim-latex'
+Plug 'Valloric/YouCompleteMe'
+" Plug 'Yggdroot/indentLine'
+Plug 'vim-syntastic/syntastic'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'jpalardy/vim-slime'
+Plug 'ludovicchabant/vim-lawrencium'
+Plug 'jidn/vim-dbml'
+call plug#end()
 "}}}
 
 " SPACES, LINES & TABS. For files to look uniform across machines and envs {{{
@@ -67,14 +63,17 @@ set hlsearch		"highlight matches
 " FOLDING {{{
 set foldenable	    	"enable folding
 set foldmethod=indent	"fold based on indent level
-set foldlevelstart=10	"open most folds by default
+"set foldlevelstart=100	"open most folds by default
+autocmd Syntax c,cpp,vim,xml,html,xhtml,tex,latex setlocal foldmethod=syntax
+autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,tex,latex normal zR
 "}}}
 
 " FILETYPE SETTINGS {{{
 filetype on	    	"enable filetype detection
 filetype plugin on	"load plugins for specific filetypes
 filetype indent on	"apply filetype indents
-let g:tex_flavor = "latex"
+let g:tex_flavor="latex"
+let g:tex_conceal="" "disable concealing for tex
 "}}}
 
 " Templates {{{
@@ -110,6 +109,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_python_python_exec = 'python'
 let g:syntastic_pythnon_checkers = ['flake8', 'pylint']
 let g:Syntastic_tex_checkers = ['lacheck']
 "}}}
