@@ -62,8 +62,8 @@ set hlsearch		"highlight matches
 
 " FOLDING {{{
 set foldenable	    	"enable folding
-set foldmethod=indent	"fold based on indent level
-"set foldlevelstart=100	"open most folds by default
+set foldmethod=syntax	"fold based on indent level
+set foldlevelstart=10	"open most folds by default
 autocmd Syntax c,cpp,vim,xml,html,xhtml,tex,latex setlocal foldmethod=syntax
 autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,tex,latex normal zR
 "}}}
