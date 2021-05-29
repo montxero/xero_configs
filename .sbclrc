@@ -1,0 +1,10 @@
+;;; Set floats to double precision by default
+(setf *read-default-float-format* 'double-float)
+
+;;; Quicklisp setup
+#-quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                       (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
+
