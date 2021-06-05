@@ -70,7 +70,7 @@ library_setup (){
 
 python_setup () {
     # Virtualenv setup
-    if ! command -v workon > /dev/null 2>&1; then
+    if ! [ -x "$(command -v workon)" ]; then
         if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
             if [ -z "$WORKON_HOME" ]; then
                 export WORKON_HOME=$HOME/.virtualenvs;
@@ -111,7 +111,7 @@ keyboard_setup () {
 launch_emacs_server () {
     # Launch emacs server daemon if emacs command is available
     # and an emacs server is not running.
-    if command -v emacs > /dev/null; then
+    if [ -x "$(command -v emacs)" ]; then
         if [ ! "$(pgrep -f 'emacs')" ]; then
             emacs --daemon;
         fi
@@ -130,10 +130,19 @@ nvm_setup () {
 }
 
 
+texlive_setup () {
+    if [ -d "/usr/local/texlive/2021/bin/x86_64-linux" ]; then
+	pathmunge "/usr/local/texlive/2021/bin/x86_64-linux";
+    fi
+}
+
+
 library_setup;
+lib_pathmunge "/usr/local/atlas/lib"
 keyboard_setup;
 python_setup;
+texlive_setup;
 local_bin_setup;
 nvm_setup;
-setup_generic_installed "$HOME/.idris2";
-launch_emacs_server;
+# setup_generic_installed "$HOME/.idris2";
+# launch_emacs_server;
