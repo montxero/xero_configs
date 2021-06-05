@@ -121,3 +121,8 @@ fi
 if [ -n "$NVM_DIR" ]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion";
 fi
+
+# Stack Completions
+if [ -x "$(command -v stack)" ]; then
+    eval "$(stack --bash-completion-script stack)"
+fi
