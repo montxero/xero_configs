@@ -122,6 +122,16 @@ if [ -n "$NVM_DIR" ]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion";
 fi
 
+# ROS Settings
+if [ -f "/opt/ros/noetic/setup.bash" ]; then
+    source "/opt/ros/noetic/setup.bash"
+fi
+
+if [ -d "$HOME/catkin_ws" ]; then
+    export CATKIN_HOME="$HOME/catkin_ws";
+    . $CATKIN_HOME/devel/setup.bash;
+fi
+
 # Stack Completions
 if [ -x "$(command -v stack)" ]; then
     eval "$(stack --bash-completion-script stack)"
