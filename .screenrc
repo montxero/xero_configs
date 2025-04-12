@@ -10,3 +10,4 @@ hardstatus alwayslastline
 # hardstatus string '%{= kd} %{= kd}%-w%{= kr}[%{=KW}%n %t%{= kr]%{= kd}%+w %-= %{KG}%H%{KW}|%{KY}%101`%{KW}|%D %M %d %Y%{= kc} %C%A%{-}'
 hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
 caption always "%{= kw}%-w%{= BW}%n %t%{-}%+w %-= %c"
+termcapinfo xterm* ti@:te@ # enable mouse scrolling in Screen
