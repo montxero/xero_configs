@@ -2,7 +2,7 @@
 # created by Xero 03-08-2016
 
 # UI Settings
-term-256color
+term "screen-256color"
 attrcolor b ".I"    #allow bold colours
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm' #Set backfroun and foreground colours. AB=bkrnd AF=forgrnd
 #defbce "on" #Erase bkgrnd with bg colour
