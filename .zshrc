@@ -1,0 +1,36 @@
+[ -f $HOME/.aliases ] && source $HOME/.aliases
+[ -f $HOME/.plugins.zsh ] && source $HOME/.plugins.zsh
+[ -f $HOME/.zsh_functions ] && source $HOME/.zsh_functions
+fpath+=~/.zfunc
+
+setopt HIST_FCNTL_LOCK
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_LEX_WORDS
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
+# completion
+autoload -Uz compinit
+compinit
+autoload -Uz bashcompinit
+bashcompinit
+
+
+# prompt
+autoload -Uz vcs_info
+precmd_vcs_info () { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+
+#RPROMPT='${vcs_info_msg_0_}'
+PROMPT='%F{46}%n%f%B%F{35}@%m%b%f:%F{37}%2~% %f %F{229}${vcs_info_msg_0_}%f %# '
+
+#path
+[ -f $HOME/.cargo/bin ] && prepend_to_path "$HOME/.cargo/bin"
+prepend_to_path "$HOME/bin"
+
+
+export PATH="$PATH:/Applications/microchip/xc8/v3.10/bin"
+
+[ -f "/Users/dylan/.ghcup/env" ] && . "/Users/dylan/.ghcup/env" # ghcup-env

@@ -1,0 +1,15 @@
+typeset -aU path
+
+prepend_to_path() {
+    local directory="$1";
+    if [[ -d "$directory" ]]; then
+        path=("$directory" $path);
+    fi
+}
+
+append_to_path () {
+    local directory="$1";
+    if [[ -d "$directory" ]]; then
+        path($path "$directory");
+    fi
+}
