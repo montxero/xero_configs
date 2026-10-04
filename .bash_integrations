@@ -1,0 +1,18 @@
+# Software that wants to integrate into bash.
+
+## Altera and Quartus
+export QSYS_ROOTDIR="/home/me/altera_lite/25.1std/quartus/sopc_builder/bin"
+
+# Added by Quartus Prime software
+export SALT_LICENSE_SERVER="$SALT_LICENSE_SERVER;/home/me/.altera.quartus/questa_lic.dat"
+
+## NVM for Node
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+## RBENV
+eval "$(~/repos/rbenv/bin/rbenv init - --no-rehash bash)"
